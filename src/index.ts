@@ -1,9 +1,42 @@
 import { Hono } from 'hono';
+import { swaggerUI } from '@hono/swagger-ui';
+import { OpenAPIHono } from '@hono/zod-openapi';
+import { cors } from 'hono/cors';
+import { env } from './configs/env.config';
+import { apiRouter } from './controllers/api.controller';
+import { serve } from 'bun';
 
-const app = new Hono();
-
-app.get('/', (c) => {
-	return c.text('Hello Hono!');
+const app = new OpenAPIHono({
+  defaultHook: (result, c) => {
+    if (!result.success) {
+      return c.json({ errors: result.error.flatten() }, 400);
+    }
+  },
 });
 
-export default app;
+app.use(
+  '/api/*',
+  cors({
+    credentials: true,
+    origin: env.ALLOWED_ORIGINS,
+  }),
+);
+
+app.get('/', (c) => c.json({ message: 'Server runs successfully' }));
+app.route('/api', apiRouter);
+app.doc('/doc', {
+  openapi: '3.1.0',
+  info: {
+    version: '1.0',
+    title: 'Competition Site API',
+  },
+  tags: [{ name: 'hello', description: 'Hello API' }],
+});
+app.get('/swagger', swaggerUI({ url: '/doc' }));
+
+console.log(`Server is running on port ${env.PORT}`);
+
+serve({
+  fetch: app.fetch,
+  port: env.PORT,
+});
