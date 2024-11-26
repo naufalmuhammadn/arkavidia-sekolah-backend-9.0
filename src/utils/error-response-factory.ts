@@ -3,7 +3,7 @@ import { z } from 'zod';
 import {
 	GenericErrorShema,
 	ValidationErrorSchema,
-} from '../types/responses.types';
+} from '../types/responses.type';
 
 const typeToSchema = (error: 'GENERIC' | 'VALIDATION' | 'UNION') => {
 	if (error === 'GENERIC') return GenericErrorShema;

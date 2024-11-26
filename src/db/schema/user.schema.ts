@@ -12,6 +12,7 @@ import {
 	unique,
 } from 'drizzle-orm/pg-core';
 import { createId, getNow } from '../../utils/drizzle-schema-util';
+import { todo } from './todo.schema';
 
 export const user = pgTable('user', {
 	id: text('id').primaryKey().$defaultFn(createId),
@@ -20,3 +21,7 @@ export const user = pgTable('user', {
 	createdAt: timestamp('created_at').defaultNow(),
 	updatedAt: timestamp('updated_at').$onUpdate(getNow),
 });
+
+export const userRelation = relations(user, ({ one, many }) => ({
+	todo: many(todo),
+}));

@@ -30,7 +30,10 @@ app.doc('/doc', {
 		version: '1.0',
 		title: 'Competition Site API',
 	},
-	tags: [{ name: 'hello', description: 'Hello API' }],
+	tags: [
+		{ name: 'hello', description: 'Hello API' },
+		{ name: 'todo', description: 'Todo API' },
+	],
 });
 app.get('/swagger', swaggerUI({ url: '/doc' }));
 
