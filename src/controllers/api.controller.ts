@@ -2,7 +2,7 @@ import { OpenAPIHono } from '@hono/zod-openapi';
 import { healthRouter } from './health.controller';
 
 const unprotectedApiRouter = new OpenAPIHono();
-unprotectedApiRouter.route('/', healthRouter)
+unprotectedApiRouter.route('/', healthRouter);
 
 const protectedApiRouter = new OpenAPIHono();
 
