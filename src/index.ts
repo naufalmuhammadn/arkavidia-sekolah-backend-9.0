@@ -33,6 +33,7 @@ app.doc('/doc', {
 	tags: [
 		{ name: 'hello', description: 'Hello API' },
 		{ name: 'todo', description: 'Todo API' },
+		{ name: 'user', description: 'User API'},
 	],
 });
 app.get('/swagger', swaggerUI({ url: '/doc' }));
